@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import withPokemonProvider from '../../hoc/PokemonProviderWrapper';
+import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
 
-interface AddPokemonProps extends ScreenProps { }
+interface AddPokemonProps extends ScreenProps {
+    pokemons: Pokemon[]
+}
 
-export default class AddPokemon extends Component<AddPokemonProps> {
+class AddPokemon extends Component<AddPokemonProps> {
     // render callback
     render() {
         return (
@@ -14,3 +19,9 @@ export default class AddPokemon extends Component<AddPokemonProps> {
         )
     }
 }
+
+const mapStateToProps = (state: PokemonsStore) => ({
+    pokemons: state.pokemons
+})
+
+export default connect(mapStateToProps)(withPokemonProvider(AddPokemon))
