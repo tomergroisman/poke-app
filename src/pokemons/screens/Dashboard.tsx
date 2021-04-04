@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
+import { Pokemon } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
+import { PokemonsStore } from '../store/pokemons.store';
 
-interface DashboardProps extends ScreenProps { }
+interface DashboardProps extends ScreenProps {
+    pokemons: Pokemon[]
+}
 
 
-export default class Dashboard extends Component<DashboardProps> {
+class Dashboard extends Component<DashboardProps> {
     // Push screen to the stack
     pushScreen(name: string) {
         Navigation.push(this.props.componentId, {
@@ -18,6 +23,7 @@ export default class Dashboard extends Component<DashboardProps> {
 
     // render callback
     render() {
+        console.log(this.props.pokemons)
         return (
             <View>
                 <Text>Dashboard</Text>
@@ -27,3 +33,9 @@ export default class Dashboard extends Component<DashboardProps> {
         )
     }
 }
+
+const mapStateToProps = (state: PokemonsStore) => ({
+    pokemons: state.pokemons
+});
+
+export default connect(mapStateToProps)(Dashboard);
