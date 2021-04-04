@@ -1,9 +1,23 @@
-/**
- * @format
- */
+import { Navigation } from "react-native-navigation";
+import { registerScreens } from "./src/screens";
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+// Register screens
+registerScreens();
 
-AppRegistry.registerComponent(appName, () => App);
+// Set root screen
+Navigation.events().registerAppLaunchedListener(() => {
+     Navigation.setRoot({
+        root: {
+            stack: {
+                children: [
+                    {
+                        component: {
+                            name: 'PokeApp.Dashboard'
+                        }
+                    }
+                ]
+            }
+        }
+    });
+});
+    
