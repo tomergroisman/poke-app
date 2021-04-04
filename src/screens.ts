@@ -1,7 +1,5 @@
 import { Navigation }from 'react-native-navigation';
 import withPokemonProvider from './hoc/PokemonProviderWrapper';
-import withProvider from './hoc/PokemonProviderWrapper';
-import { store as pokemonStore } from './pokemons/store/pokemons.store';
 
 // Register app screens
 export function registerScreens() {

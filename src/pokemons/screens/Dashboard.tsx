@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
-import withPokemonProvider from '../../hoc/PokemonProviderWrapper';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import withPokemonProvider from '../../hoc/PokemonProviderWrapper';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
 
@@ -24,4 +23,4 @@ const mapStateToProps = (state: PokemonsStore) => ({
     pokemons: state.pokemons
 })
 
-export default connect(mapStateToProps)(withPokemonProvider(AddPokemon))
+export default connect(mapStateToProps)(AddPokemon)
