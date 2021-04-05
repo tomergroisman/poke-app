@@ -34,7 +34,6 @@ class Dashboard extends Component<DashboardProps> {
 
     // render callback
     render() {
-        console.log(this.props.pokemons)
         return (
             <View padding-s10>
                 { this.renderPokemons() }
