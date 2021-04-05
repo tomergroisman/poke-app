@@ -3,9 +3,9 @@ describe('pokemons.actions tests', () => {
     let store, pokemonActions;
 
     const mockedPokemons = [
-        { id: 1, name: "Balbasaur" },
-        { id: 2, name: "Charizard" },
-        { id: 3, name: "Muk" }
+        { id: 1, name: "Balbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"},
+        { id: 2, name: "Charizard", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"},
+        { id: 3, name: "Muk", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"}
     ];
 
     const mockedRandomPokemon = { id: 0, name: "Meu" };

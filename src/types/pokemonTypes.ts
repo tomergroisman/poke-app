@@ -1,6 +1,7 @@
 export interface Pokemon {
     id: number,
-    name: string
+    name: string,
+    img: string
 }
 
 export interface PokemonsStore {

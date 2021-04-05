@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, LoaderScreen } from 'react-native-ui-lib';
+import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
@@ -14,7 +15,7 @@ interface AddPokemonProps extends ScreenProps {
 
 interface AddPokemonState {
     search: string,
-    loading: boolean
+    loading: string
 }
 
 class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
@@ -24,33 +25,35 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
         this.state = {
             search: "",
-            loading: false
+            loading: ""
         }
     }
 
-    // Add random pokemon button press handler
-    handleRandomPress = () => {
-        this.setState({ loading: true });
-        
+    // On press handler
+    handlePress = (pressType: string) => {
+        this.setState({ loading: pressType });
+    }
+
+    // Filter pokemons that contains the search term
+    filterPokemons() {
+        return this.props.pokemons
+            .filter(pokemon => pokemon.name.toLocaleLowerCase().includes(this.state.search.toLocaleLowerCase()))
+            .map(pokemon => <PokemonCard key={pokemon.id} pokemon={pokemon} onPress={() => this.handlePress(pokemon.name)} />)
     }
 
     // componentDidMount callback
     componentDidMount() {
-        pokemonsActions.resetPokemons();
+        pokemonsActions.getAllPokemons();
     }
 
     // componentDidUpdate callback
     componentDidUpdate({}, prevState: AddPokemonState) {
         if (this.state.loading && prevState.loading !== this.state.loading) {
             setTimeout(async () => {
-                await pokemonsActions.addPokemon();
                 await pokemonsActions.fetchPokemons();
+                await pokemonsActions.addPokemon(this.state.loading === "RANDOM" ? undefined : this.state.loading);
                 Navigation.pop(this.props.componentId)
             }, 500);
-        }
-
-        if (prevState.search !== this.state.search) {
-            pokemonsActions.filterPokemons(this.state.search);
         }
     }
 
@@ -58,19 +61,19 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
     render() {
         return (
             <View padding-s10>
-                { this.state.loading ?
-                <LoaderScreen />:
-                <View>
+                { !!this.state.loading ?
+                <LoaderScreen /> :
+                <ScrollView>
                     <SearchBar search={this.state.search} actions={{ set: (search: string) => this.setState({ search }) }}/>
-                    { this.props.pokemons.map(pokemon => <PokemonCard key={pokemon.id} pokemon={pokemon} />) }
+                    { !!this.state.search && this.filterPokemons() }
                     <View>
                         <Button
                             label="Add Random"
-                            onPress={this.handleRandomPress}
+                            onPress={() => this.handlePress("RANDOM")}
                             margin-s6
                         />
                     </View> 
-                </View> }
+                </ScrollView> }
             </View>
         )
     }

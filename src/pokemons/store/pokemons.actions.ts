@@ -7,13 +7,16 @@ import { store } from './pokemons.store';
 export const fetchPokemons = async () => {
     store.dispatch({
         type: actionTypes.SET_POKEMONS,
-        payload: await apiClient.getPokemons()
+        payload: await apiClient.getUserPokemons()
     })
 }
 
 // Add pokemon to the user's pokemons
-export const addPokemon = async (pokemon?: Pokemon) => {
-    let newPokemon = pokemon;
+export const addPokemon = async (pokemon?: string) => {
+    let newPokemon: Pokemon | undefined;
+    if (pokemon) {
+        newPokemon = await apiClient.getPokemon(pokemon);
+    }
     while (!newPokemon) {
         newPokemon = await apiClient.getRandomPokemon();
         if (store.getState().pokemons.find(pokemon => pokemon.id === newPokemon?.id)) {
@@ -26,8 +29,18 @@ export const addPokemon = async (pokemon?: Pokemon) => {
     })
 }
 
+// Reset pokemons list
 export const resetPokemons = () => {
     store.dispatch({
         type: actionTypes.RESET_POKEMONS
     })
 }
+
+// Reset pokemons list
+export const getAllPokemons = async () => {
+    store.dispatch({
+        type: actionTypes.SET_POKEMONS,
+        payload: await apiClient.getAllPokemons()
+    })
+}
+
