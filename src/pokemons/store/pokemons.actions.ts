@@ -13,8 +13,21 @@ export const fetchPokemons = async () => {
 
 // Add pokemon to the user's pokemons
 export const addPokemon = async (pokemon?: Pokemon) => {
+    let newPokemon = pokemon;
+    while (!newPokemon) {
+        newPokemon = await apiClient.getRandomPokemon();
+        if (store.getState().pokemons.find(pokemon => pokemon.id === newPokemon?.id)) {
+            newPokemon = undefined;
+        }
+    }
     store.dispatch({
         type: actionTypes.ADD_POKEMON,
-        payload: pokemon ? pokemon : await apiClient.getRandomPokemon()
+        payload: newPokemon
+    })
+}
+
+export const resetPokemons = () => {
+    store.dispatch({
+        type: actionTypes.RESET_POKEMONS
     })
 }

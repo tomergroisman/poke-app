@@ -6,7 +6,7 @@ const initialState: PokemonsStore = {
     pokemons: [],
 }
 
-export function pokemonsReducer(state: PokemonsStore = initialState, { type, payload }: { type: string, payload: Payload }) {
+export function pokemonsReducer(state: PokemonsStore = initialState, { type, payload }: { type: string, payload?: Payload }) {
     switch (type) {
 
         case 'SET_POKEMONS':
@@ -24,6 +24,9 @@ export function pokemonsReducer(state: PokemonsStore = initialState, { type, pay
                     pokemons:[ ...state.pokemons, payload]
                 }
             }
+
+        case 'RESET_POKEMONS':
+            return initialState
 
         default:
             return state
