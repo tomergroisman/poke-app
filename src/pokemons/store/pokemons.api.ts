@@ -18,7 +18,12 @@ export function getPokemons(): Promise<Pokemon[]> {
 // Get a random 1st generation pokemon
 export function getRandomPokemon(): Promise<Pokemon> {
     const randomNum: number = Math.ceil(Math.random() * lastPokemon)
-    return fetch(POKEMON_API_ENDPOINT + `/${randomNum}`).then(res => res.json()).then(pokemon => pokemon.name)
+    return fetch(POKEMON_API_ENDPOINT + `/${randomNum}`)
+    .then(res => res.json())
+    .then(pokemon => ({
+        name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+        id: Math.floor(Math.random() * 99999)
+    }))
 }
 
 // Add a pokemon to the user's pokemons list on the server
