@@ -1,17 +1,19 @@
-import { Pokemon } from "../../types/pokemonTypes"
-import { PokemonsStore } from "./pokemons.store"
+import { Pokemon, PokemonsStore } from "../../types/pokemonTypes"
 
 type Payload = Pokemon[]
 
 const initialState: PokemonsStore = {
-    pokemons: []
+    pokemons: [],
 }
 
 export function pokemonsReducer(state: PokemonsStore = initialState, { type, payload }: { type: string, payload: Payload }) {
     switch (type) {
 
         case 'SET_POKEMONS':
-            state.pokemons = payload
+            return {
+                ...state,
+                pokemons:[...payload]
+            }
 
         default:
             return state
