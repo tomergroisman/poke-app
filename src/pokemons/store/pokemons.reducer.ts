@@ -18,9 +18,11 @@ export function pokemonsReducer(state: PokemonsStore = initialState, { type, pay
             }
 
         case 'ADD_POKEMON':
-            return {
-                ...state,
-                pokemons:[ ...state.pokemons, payload]
+            if (!Array.isArray(payload)) {
+                return {
+                    ...state,
+                    pokemons:[ ...state.pokemons, payload]
+                }
             }
 
         default:

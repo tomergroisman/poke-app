@@ -16,7 +16,8 @@ describe('pokemons.actions tests', () => {
 
         jest.mock('./pokemons.api', () => ({
             getPokemons: jest.fn().mockResolvedValue(mockedPokemons),
-            getRandomPokemon: jest.fn().mockResolvedValue(mockedRandomPokemon)
+            getRandomPokemon: jest.fn().mockResolvedValue(mockedRandomPokemon),
+            addPokemon: jest.fn()
         }))
 
         pokemonActions = require('./pokemons.actions');
