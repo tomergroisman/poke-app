@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, View, LoaderScreen } from 'react-native-ui-lib';
-import { ScrollView } from 'react-native-gesture-handler';
 import { ScreenProps } from '../../types/systemTypes';
 import * as pokemonsActions from '../store/pokemons.actions';
 import * as pokemonsHandler from '../data/allPokemonHandler';
@@ -9,6 +8,7 @@ import { Navigation } from 'react-native-navigation';
 import PokemonCard from '../components/PokemonCard';
 import { Pokemon, PokemonHash, PokemonsStore } from '../../types/pokemonTypes';
 import { connect } from 'react-redux';
+import PokemonsList from '../components/PokemonsList';
 
 interface AddPokemonProps extends ScreenProps {
     hash: PokemonHash
@@ -42,17 +42,14 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
     // Filter pokemons that contains the search term
     filterPokemons() {
-        return !!this.state.search ?
-            pokemonsHandler
-                .filterPokemons(this.state.search)
-                .map(pokemon => 
-                    <PokemonCard
-                        key={pokemon.id}
-                        pokemon={pokemon}
-                        onPress={this.handlePress.bind(this, pokemon.name)} 
-                        disabled={!!this.props.hash[pokemon.id]}
-                    />) :
-            []
+        const filteredPokemons = !!this.state.search ? pokemonsHandler.filterPokemons(this.state.search) : []
+        return (
+            <PokemonsList
+                pokemons={filteredPokemons}
+                onPokemonPress={this.handlePress}
+            />
+        )
+            
     }
 
     // Submit and add a pokemon to the user's pokemon list
@@ -63,7 +60,7 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
     // componentDidUpdate callback
     componentDidUpdate({}, prevState: AddPokemonState) {
-        
+        // Call handleSubmit only after loader is set
         if (this.state.loading && prevState.loading !== this.state.loading) {
             this.handleSubmit();
         }
@@ -72,20 +69,20 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
     // render callback
     render() {
         return (
-            <View padding-s10>
+            <View flex padding-s10>
                 { !!this.state.loading ?
                 <LoaderScreen /> :
-                <ScrollView>
+                <View flex>
                     <SearchBar search={this.state.search} actions={{ set: this.handleSearchChange }}/>
                     { this.filterPokemons() }
-                    <View>
+                    <View flex bottom>
                         <Button
                             label="Add Random"
                             onPress={this.handlePress.bind(this, "RANDOM")}
                             margin-s6
                         />
-                    </View> 
-                </ScrollView> }
+                    </View>
+                </View> }
             </View>
         )
     }
@@ -98,4 +95,4 @@ function mapStateToProps(state: PokemonsStore) {
     }
 }
 
-export default connect(mapStateToProps)(AddPokemon)
+export default connect(mapStateToProps)(React.memo(AddPokemon))
