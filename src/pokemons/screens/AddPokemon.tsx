@@ -30,6 +30,11 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
         }
     }
 
+    // On change text handler
+    handleSearchChange = (search: string) => {
+        this.setState({ search })
+    }
+
     // On press handler
     handlePress = (pressType: string) => {
         this.setState({ loading: pressType });
@@ -44,19 +49,23 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
                     <PokemonCard
                         key={pokemon.id}
                         pokemon={pokemon}
-                        onPress={() => this.handlePress(pokemon.name)} 
+                        onPress={this.handlePress.bind(this, pokemon.name)} 
                         disabled={!!this.props.hash[pokemon.id]}
                     />) :
             []
     }
 
+    // Submit and add a pokemon to the user's pokemon list
+    async handleSubmit() {
+        await pokemonsActions.addPokemon(this.state.loading === "RANDOM" ? undefined : this.state.loading);
+        Navigation.pop(this.props.componentId)
+    }
+
     // componentDidUpdate callback
     componentDidUpdate({}, prevState: AddPokemonState) {
+        
         if (this.state.loading && prevState.loading !== this.state.loading) {
-            setTimeout(async () => {
-                await pokemonsActions.addPokemon(this.state.loading === "RANDOM" ? undefined : this.state.loading);
-                Navigation.pop(this.props.componentId)
-            }, 500);
+            this.handleSubmit();
         }
     }
 
@@ -67,12 +76,12 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
                 { !!this.state.loading ?
                 <LoaderScreen /> :
                 <ScrollView>
-                    <SearchBar search={this.state.search} actions={{ set: (search: string) => this.setState({ search }) }}/>
+                    <SearchBar search={this.state.search} actions={{ set: this.handleSearchChange }}/>
                     { this.filterPokemons() }
                     <View>
                         <Button
                             label="Add Random"
-                            onPress={() => this.handlePress("RANDOM")}
+                            onPress={this.handlePress.bind(this, "RANDOM")}
                             margin-s6
                         />
                     </View> 

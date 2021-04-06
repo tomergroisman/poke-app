@@ -10,6 +10,12 @@ interface PokemonCardProps {
 }
 
 export default class PokemonCard extends Component<PokemonCardProps> {
+    // Fire a already have alert
+    fireAlert() {
+        Alert.alert("You already have that Pokemon!")
+    }
+
+    // render callback
     render() {
         const disabledStyles: TextStyle = {
             textDecorationLine: "line-through",
@@ -18,7 +24,7 @@ export default class PokemonCard extends Component<PokemonCardProps> {
         return (
             <View>
                 <Text
-                    onPress={!this.props.disabled ? this.props.onPress : () => Alert.alert("You already have that Pokemon!")}
+                    onPress={!this.props.disabled ? this.props.onPress : this.fireAlert}
                     style={this.props.disabled ? disabledStyles : undefined}
                     color={this.props.disabled ? Colors.grey40 : Colors.black}
                 >
