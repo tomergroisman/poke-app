@@ -23,6 +23,7 @@ export const addPokemon = async (pokemonName?: string) => {
             newPokemon = undefined;
         }
     }
+    apiClient.addPokemon(newPokemon);
     store.dispatch({
         type: actionTypes.ADD_POKEMON,
         payload: newPokemon

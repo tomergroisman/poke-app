@@ -1,0 +1,19 @@
+{
+  "pokemons": [
+    {
+      "name": "Machoke",
+      "id": 67,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/67.png"
+    },
+    {
+      "name": "Nidoking",
+      "id": 34,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/34.png"
+    },
+    {
+      "name": "Nidoran-m",
+      "id": 32,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { Pokemon } from "../../types/pokemonTypes";
 
-const API_ENDPOINT: string = "https://pokeapi.co/api/v2/pokemon";
+const API_ENDPOINT: string = "http://localhost:3000/pokemons";
 const POKEMON_API_ENDPOINT: string = "https://pokeapi.co/api/v2/pokemon";
 const lastPokemon: number = 151;
 
@@ -12,7 +12,8 @@ const serverPokemons: Pokemon[] = [
 
 // Get all user's pokemon from the server
 export function getUserPokemons(): Promise<Pokemon[]> {
-    return Promise.resolve(serverPokemons)
+    return fetch(API_ENDPOINT)
+        .then(res => res.json())
 }
 
 // Get a random 1st generation pokemon
@@ -31,8 +32,15 @@ export function getPokemon(name: string): Promise<Pokemon> {
 }
 
 // Add a pokemon to the user's pokemons list on the server
-export function addPokemon(): Promise<void> {
-    return Promise.resolve()
+export function addPokemon(pokemon: Pokemon): Promise<void> {
+    return fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pokemon)
+        })
+        .then()
 }
 
 function parseApiPokemon(pokemon: any) {
