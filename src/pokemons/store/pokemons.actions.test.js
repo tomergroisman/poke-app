@@ -41,7 +41,6 @@ describe('pokemons.actions tests', () => {
 
     it("Should reset pokemons list", async () => {
         pokemonActions.resetPokemons();
-        console.log(store.store)
         expect(store.store.dispatch).toBeCalledWith({
             type: "RESET_POKEMONS",
         });

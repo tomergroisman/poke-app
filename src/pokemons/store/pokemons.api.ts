@@ -15,17 +15,6 @@ export function getUserPokemons(): Promise<Pokemon[]> {
     return Promise.resolve(serverPokemons)
 }
 
-// Get all user's pokemon from the server
-export function getAllPokemons(): Promise<Pokemon[]> {
-    return fetch(POKEMON_API_ENDPOINT + `?limit=${lastPokemon}}`)
-        .then(res => res.json())
-        .then(data => data.results)
-        .then(pokemons => pokemons.map((pokemon: Pokemon, i: number) => ({
-            name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
-            id: i,
-        })))
-}
-
 // Get a random 1st generation pokemon
 export function getRandomPokemon(): Promise<Pokemon> {
     const randomNum: number = Math.ceil(Math.random() * lastPokemon);

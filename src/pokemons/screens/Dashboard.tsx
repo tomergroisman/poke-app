@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { Text, View, Button } from 'react-native-ui-lib';
+import { View, Button } from 'react-native-ui-lib';
 import { connect } from 'react-redux';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
