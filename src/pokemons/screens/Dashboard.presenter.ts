@@ -1,4 +1,5 @@
 import { Navigation } from "react-native-navigation"
+import { Colors } from "react-native-ui-lib"
 
 // Push pokemon view screen to the stack
 export function pushViewScreen(componentId: string, id: number) {
@@ -19,7 +20,16 @@ export function pushAddModal() {
             children: [
                 {
                     component: {
-                        name: 'PokeApp.AddPokemon'
+                        name: 'PokeApp.AddPokemon',
+                        options: {
+                            topBar: {
+                                leftButtons: [{
+                                    id: "cancel-btn",
+                                    text: "Cancel",
+                                    color: Colors.red30
+                                }]
+                            }
+                        }
                     },
                 },
             ],

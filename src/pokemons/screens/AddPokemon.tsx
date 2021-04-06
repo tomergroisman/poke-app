@@ -28,6 +28,8 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
             search: "",
             loading: false,
         }
+
+        Navigation.events().bindComponent(this);
     }
 
     // On change text handler
@@ -67,6 +69,12 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
         // Call handleSubmit only after loader is set
         if (this.state.loading && prevState.loading !== this.state.loading) {
             this.handleSubmit();
+        }
+    }
+
+    navigationButtonPressed({ buttonId }: { buttonId: string }) {
+        if (buttonId === "cancel-btn") {
+            Navigation.dismissModal(this.props.componentId)
         }
     }
 
