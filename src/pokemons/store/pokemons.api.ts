@@ -1,4 +1,4 @@
-import { Pokemon } from "../../types/pokemonTypes";
+import { Pokemon, PokemonFull } from "../../types/pokemonTypes";
 
 const API_ENDPOINT: string = "http://localhost:3000/pokemons";
 const POKEMON_API_ENDPOINT: string = "https://pokeapi.co/api/v2/pokemon";
@@ -19,7 +19,9 @@ export function getRandomPokemon(): Promise<Pokemon> {
 }
 
 // Get a specific 1st generation pokemon
-export function getPokemon(id: number, parse?: boolean): Promise<Pokemon> {
+export function getPokemon(id: number): Promise<PokemonFull>;
+export function getPokemon(id: number, parse: boolean): Promise<Pokemon>;
+export function getPokemon(id: number, parse?: boolean): Promise<Pokemon | PokemonFull> {
     // console.log(id);
     return fetch(POKEMON_API_ENDPOINT + `/${id}`)
         .then(res => res.json())

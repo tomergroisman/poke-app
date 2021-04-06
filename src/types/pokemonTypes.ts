@@ -4,6 +4,11 @@ export interface Pokemon {
     img: string
 }
 
+export interface PokemonFull extends Pokemon{
+    types: { type: { name: string } }[],
+    weight: number
+}
+
 export interface PokemonHash {
     [key: number]: string
 }

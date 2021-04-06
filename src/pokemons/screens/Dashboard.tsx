@@ -24,7 +24,7 @@ class Dashboard extends Component<DashboardProps> {
     // render callback
     render() {
         return (
-            <View padding-s10 flex>
+            <View padding-s6 flex>
                 <View flex-6>
                     <PokemonsList
                         pokemons={this.props.pokemons}
