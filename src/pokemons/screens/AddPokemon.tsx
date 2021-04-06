@@ -15,7 +15,8 @@ interface AddPokemonProps extends ScreenProps {
 
 interface AddPokemonState {
     search: string,
-    loading: string
+    loading: boolean,
+    selection?: number
 }
 
 class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
@@ -25,7 +26,7 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
         this.state = {
             search: "",
-            loading: ""
+            loading: false,
         }
     }
 
@@ -35,8 +36,11 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
     }
 
     // On press handler
-    handlePress = (pressType: string) => {
-        this.setState({ loading: pressType });
+    handlePress = (pokemonId?: number) => {
+        this.setState({
+            loading: true,
+            selection: pokemonId
+        });
     }
 
     // Filter pokemons that contains the search term
@@ -53,8 +57,9 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
     // Submit and add a pokemon to the user's pokemon list
     async handleSubmit() {
-        await pokemonsActions.addPokemon(this.state.loading === "RANDOM" ? undefined : this.state.loading);
-        Navigation.pop(this.props.componentId)
+        console.log(this.state.selection)
+        await pokemonsActions.addPokemon(this.state.selection);
+        Navigation.dismissModal(this.props.componentId)
     }
 
     // componentDidUpdate callback
@@ -77,7 +82,7 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
                     <View flex bottom>
                         <Button
                             label="Add Random"
-                            onPress={this.handlePress.bind(this, "RANDOM")}
+                            onPress={() => this.handlePress()}
                             margin-s6
                             text70BO
                         />

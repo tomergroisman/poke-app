@@ -7,7 +7,7 @@ import PokemonListItem from './PokemonListItem';
 
 interface PokemonsListProps {
     pokemons: Pokemon[],
-    onPokemonPress: (pressType: string) => void,
+    onPokemonPress: (id: number) => void,
     hash: PokemonHash,
     useDisable?: boolean
 }
@@ -24,7 +24,7 @@ class PokemonsList extends Component<PokemonsListProps> {
             <PokemonListItem
                 key={item.id}
                 pokemon={item}
-                onPress={() => this.props.onPokemonPress(item.name)} 
+                onPress={() => this.props.onPokemonPress(item.id)} 
                 disabled={this.props.useDisable && !!this.props.hash[item.id]}
             />
         )

@@ -4,12 +4,6 @@ const API_ENDPOINT: string = "http://localhost:3000/pokemons";
 const POKEMON_API_ENDPOINT: string = "https://pokeapi.co/api/v2/pokemon";
 const lastPokemon: number = 151;
 
-const serverPokemons: Pokemon[] = [
-    { id: 1, name: "Balbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"},
-    { id: 2, name: "Charizard", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"},
-    { id: 3, name: "Muk", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"}
-]
-
 // Get all user's pokemon from the server
 export function getUserPokemons(): Promise<Pokemon[]> {
     return fetch(API_ENDPOINT)
@@ -25,10 +19,11 @@ export function getRandomPokemon(): Promise<Pokemon> {
 }
 
 // Get a specific 1st generation pokemon
-export function getPokemon(name: string): Promise<Pokemon> {
-    return fetch(POKEMON_API_ENDPOINT + `/${name.toLocaleLowerCase()}`)
+export function getPokemon(id: number, parse?: boolean): Promise<Pokemon> {
+    // console.log(id);
+    return fetch(POKEMON_API_ENDPOINT + `/${id}`)
         .then(res => res.json())
-        .then(pokemon => parseApiPokemon(pokemon))
+        .then(pokemon => parse ? parseApiPokemon(pokemon) : pokemon)
 }
 
 // Add a pokemon to the user's pokemons list on the server
@@ -43,6 +38,7 @@ export function addPokemon(pokemon: Pokemon): Promise<void> {
         .then()
 }
 
+// Parse a full json api pokemon to Pokemon type
 function parseApiPokemon(pokemon: any) {
     return {
         name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
 import * as pokemonsActions from '../store/pokemons.actions';
+import * as presenter from './Dashboard.presenter';
 import PokemonsList from '../components/PokemonsList';
 
 interface DashboardProps extends ScreenProps {
@@ -12,15 +13,9 @@ interface DashboardProps extends ScreenProps {
 }
 
 class Dashboard extends Component<DashboardProps> {
-    // Push screen to the stack
-    pushScreen(name: string) {
-        Navigation.push(this.props.componentId, {
-            component: {
-                name 
-            }
-        })
+    onPokemonPress = (pokemonId: number) => {
+        presenter.pushViewScreen(this.props.componentId, pokemonId)
     }
-
     // componentDidMount callback
     componentDidMount() {
         pokemonsActions.fetchPokemons();
@@ -33,7 +28,7 @@ class Dashboard extends Component<DashboardProps> {
                 <View flex-6>
                     <PokemonsList
                         pokemons={this.props.pokemons}
-                        onPokemonPress={this.pushScreen.bind(this, "PokeApp.PokemonView")}
+                        onPokemonPress={this.onPokemonPress}
                         useDisable={false}
                     />
                 </View>
@@ -43,7 +38,7 @@ class Dashboard extends Component<DashboardProps> {
                         white
                         background-green30
                         label="Add Pokemon"
-                        onPress={this.pushScreen.bind(this, "PokeApp.AddPokemon")}
+                        onPress={presenter.pushAddModal}
                         margin-s6
                     />
                 </View>

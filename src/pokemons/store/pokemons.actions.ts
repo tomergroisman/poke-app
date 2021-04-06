@@ -12,10 +12,11 @@ export const fetchPokemons = async () => {
 }
 
 // Add pokemon to the user's pokemons
-export const addPokemon = async (pokemonName?: string) => {
+export const addPokemon = async (pokemonId?: number) => {
     let newPokemon: Pokemon | undefined;
-    if (pokemonName) {
-        newPokemon = await apiClient.getPokemon(pokemonName);
+    console.log("pokemonId: " + pokemonId)
+    if (pokemonId) {
+        newPokemon = await apiClient.getPokemon(pokemonId, true);
     }
     while (!newPokemon) {
         newPokemon = await apiClient.getRandomPokemon();
