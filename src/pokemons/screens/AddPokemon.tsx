@@ -5,8 +5,7 @@ import * as pokemonsActions from '../store/pokemons.actions';
 import * as pokemonsHandler from '../data/allPokemonHandler';
 import SearchBar from '../components/SearchBar';
 import { Navigation } from 'react-native-navigation';
-import PokemonCard from '../components/PokemonCard';
-import { Pokemon, PokemonHash, PokemonsStore } from '../../types/pokemonTypes';
+import { PokemonHash, PokemonsStore } from '../../types/pokemonTypes';
 import { connect } from 'react-redux';
 import PokemonsList from '../components/PokemonsList';
 
@@ -80,6 +79,7 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
                             label="Add Random"
                             onPress={this.handlePress.bind(this, "RANDOM")}
                             margin-s6
+                            text70BO
                         />
                     </View>
                 </View> }

@@ -3,24 +3,29 @@ import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import { Pokemon, PokemonHash, PokemonsStore } from '../../types/pokemonTypes';
-import PokemonCard from './PokemonCard';
+import PokemonListItem from './PokemonListItem';
 
 interface PokemonsListProps {
     pokemons: Pokemon[],
     onPokemonPress: (pressType: string) => void,
-    hash: PokemonHash
+    hash: PokemonHash,
+    useDisable?: boolean
 }
 
 class PokemonsList extends Component<PokemonsListProps> {
 
+    static defaultProps = {
+        useDisable: true
+    }
+
     // Item Render
     renderItem = ({ item }: { item: Pokemon }) => {
         return (
-            <PokemonCard
+            <PokemonListItem
                 key={item.id}
                 pokemon={item}
                 onPress={() => this.props.onPokemonPress(item.name)} 
-                disabled={!!this.props.hash[item.id]}
+                disabled={this.props.useDisable && !!this.props.hash[item.id]}
             />
         )
     }
@@ -30,6 +35,7 @@ class PokemonsList extends Component<PokemonsListProps> {
         return (
             <View flex-5>
                 <FlatList
+                    showsVerticalScrollIndicator={false}
                     data={this.props.pokemons}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id.toString()}
@@ -38,6 +44,7 @@ class PokemonsList extends Component<PokemonsListProps> {
             </View>
         )
     }
+
 }
 
 function mapStateToProps(state: PokemonsStore) {
@@ -45,5 +52,6 @@ function mapStateToProps(state: PokemonsStore) {
         hash: state.hash
     }
 }
+
 
 export default connect(mapStateToProps)(PokemonsList);
