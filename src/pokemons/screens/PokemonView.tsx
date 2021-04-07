@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import { Alert, Animated } from 'react-native';
-import { Text, View, LoaderScreen, Colors, TouchableOpacity } from 'react-native-ui-lib';
-import { Swipeable } from 'react-native-gesture-handler';
-import { getPokemon } from '../store/pokemons.api'
+import { Text, View, LoaderScreen, Image } from 'react-native-ui-lib';
+import { getPokemon } from '../store/pokemons.api';
 import { PokemonFull } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
-
+import { capitalizeFirst } from '../../helpers/stringManipulations';
+import TextCard from '../components/TextCard';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface PokemonViewProps extends ScreenProps {
     id: number
 }
 
 interface PokemonViewState {
-    loading: boolean,
     pokemon?: PokemonFull
 }
 
 export default class PokemonView extends Component<PokemonViewProps, PokemonViewState> {
-
     constructor(props: PokemonViewProps) {
         super(props);
 
-        this.state = {
-            loading: true
-        }
+        this.state = { };
     }
 
     // componentDidMount callback
@@ -32,9 +28,8 @@ export default class PokemonView extends Component<PokemonViewProps, PokemonView
             const pokemon = await getPokemon(this.props.id);
             this.setState({
                 pokemon,
-                loading: false
-            })
-        }
+            });
+        };
 
         fetchAndSet();
     }
@@ -42,15 +37,25 @@ export default class PokemonView extends Component<PokemonViewProps, PokemonView
     // render callback
     render() {
         return (
-            <View flex padding-s6>
-                { this.state.loading ? 
+            <View flex padding-s10>
+                {!this.state.pokemon ?
                 <LoaderScreen flex center /> :
-                <View>
-                    <Text>Name: {this.state.pokemon?.name}</Text>
-                    <Text>ID: {this.state.pokemon?.id}</Text>
-                    <Text>Weight: {this.state.pokemon?.weight}</Text>
-                    <Text>Types: {this.state.pokemon?.types.map(type => type.type.name).join(", ")}</Text>
-                </View> }
+                <ScrollView>
+                    <View flexS centerH>
+                        <Text text20T>{capitalizeFirst(this.state.pokemon.name)}</Text>
+                        <View flexS row marginV-s5>
+                            <Image width={96} height={96} source={{ uri: this.state.pokemon.sprites.front_default }} />
+                            <Image width={96} height={96} source={{ uri: this.state.pokemon.sprites.back_default }} />
+                        </View>
+                    </View>
+                    <View flex paddingH-s10>
+                        <TextCard title="no. " text={this.state.pokemon.id} />
+                        <TextCard title="Weight" text={this.state.pokemon.weight} />
+                        <TextCard title="Types" text={this.state.pokemon.types.map(type => capitalizeFirst(type.type.name)).join(", ")} />
+                        <TextCard title="Base XP:" text={this.state.pokemon.base_experience} />
+                        <TextCard title="Stats:" text={this.state.pokemon.stats.map(stat => capitalizeFirst(stat.stat.name) + " " + stat.base_stat).join("\n")} />
+                    </View>
+                </ScrollView> }
             </View>
         )
     }
