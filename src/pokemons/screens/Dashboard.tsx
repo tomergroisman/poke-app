@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Navigation } from 'react-native-navigation';
-import { View, Button } from 'react-native-ui-lib';
+import { View, Button, Text } from 'react-native-ui-lib';
 import { connect } from 'react-redux';
 import { Pokemon, PokemonsStore } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
@@ -19,6 +18,7 @@ class Dashboard extends Component<DashboardProps> {
         presenter.pushViewScreen(this.props.componentId, pokemonId)
     }
 
+    // Pokemon delete handler
     onDeletePokemonPress = (pokemonId: number) => {
         pokemonsActions.deletePokemon(pokemonId)
     }
@@ -31,8 +31,9 @@ class Dashboard extends Component<DashboardProps> {
     // render callback
     render() {
         return (
-            <View padding-s6 flex>
-                <View flex-6>
+            <View padding-s6 paddingT-s10 flex>
+                <Text center text30L black marginB-s5>Your Team</Text>
+                <View flexS>
                     <PokemonsList
                         pokemons={this.props.pokemons}
                         onPokemonPress={this.onPokemonPress}
@@ -40,7 +41,7 @@ class Dashboard extends Component<DashboardProps> {
                         deletable
                     />
                 </View>
-                <View flex bottom>
+                <View flexG bottom>
                     <Button
                         text70BO
                         white

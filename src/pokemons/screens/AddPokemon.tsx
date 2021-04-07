@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, LoaderScreen } from 'react-native-ui-lib';
+import { Button, View, LoaderScreen, Text } from 'react-native-ui-lib';
 import { ScreenProps } from '../../types/systemTypes';
 import * as pokemonsActions from '../store/pokemons.actions';
 import * as pokemonsHandler from '../data/allPokemonHandler';
@@ -59,7 +59,6 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
 
     // Submit and add a pokemon to the user's pokemon list
     async handleSubmit() {
-        console.log(this.state.selection)
         await pokemonsActions.addPokemon(this.state.selection);
         Navigation.dismissModal(this.props.componentId)
     }
@@ -85,9 +84,10 @@ class AddPokemon extends Component<AddPokemonProps, AddPokemonState> {
                 { !!this.state.loading ?
                 <LoaderScreen /> :
                 <View flex>
+                    <Text center text50L marginB-s6>Add New Pokemon</Text>
                     <SearchBar search={this.state.search} actions={{ set: this.handleSearchChange }}/>
                     { this.filterPokemons() }
-                    <View flex bottom>
+                    <View flexG bottom>
                         <Button
                             label="Add Random"
                             onPress={() => this.handlePress()}

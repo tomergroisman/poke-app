@@ -13,7 +13,7 @@ interface PokemonsListProps {
     onPokemonPress: (id: number) => void,
     hash: PokemonHash,
     useDisable?: boolean,
-    deletable: boolean
+    deletable?: boolean
 }
 
 class PokemonsList extends Component<PokemonsListProps> {
@@ -63,7 +63,7 @@ class PokemonsList extends Component<PokemonsListProps> {
     // render callback
     render() {
         return (
-            <View flex-5>
+            <View flexS>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     data={this.props.pokemons}
