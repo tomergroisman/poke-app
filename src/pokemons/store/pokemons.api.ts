@@ -1,3 +1,4 @@
+import { capitalizeFirst } from "../../helpers/stringManipulations";
 import { Pokemon, PokemonFull } from "../../types/pokemonTypes";
 
 const API_ENDPOINT: string = "http://localhost:3000/pokemons";
@@ -54,7 +55,7 @@ export function deletePokemon(id: number): Promise<void> {
 // Parse a full json api pokemon to Pokemon type
 function parseApiPokemon(pokemon: any) {
     return {
-        name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+        name: capitalizeFirst(pokemon.name),
         id: pokemon.id,
         img: pokemon.sprites.front_default
     }

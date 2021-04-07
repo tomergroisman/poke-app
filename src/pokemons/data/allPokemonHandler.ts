@@ -1,9 +1,10 @@
 import { Pokemon } from "../../types/pokemonTypes";
+import { capitalizeFirst } from '../../helpers/stringManipulations'
 
 const allPokemons: Pokemon[] = require('./allPokemons.json')
     .map((pokemon: Pokemon, i: number) => ({
         ...pokemon,
-        name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+        name: capitalizeFirst(pokemon.name),
         id: i + 1
     }))
 
