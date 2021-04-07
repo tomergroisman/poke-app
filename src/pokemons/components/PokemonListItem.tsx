@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import { Image, ListItem, Text } from 'react-native-ui-lib';
 import { Pokemon } from '../../types/pokemonTypes';
-import DeleteButton from './DeleteButton';
 
 interface PokemonListItemProps {
     pokemon: Pokemon,
@@ -23,7 +21,7 @@ export default class PokemonListItem extends Component<PokemonListItemProps> {
                         {this.props.pokemon.name}
                     </Text>
                 </ListItem.Part>
-                <ListItem.Part>
+                <ListItem.Part right>
                     <Image
                         source={{ uri: this.props.pokemon.img }}
                         height={80}

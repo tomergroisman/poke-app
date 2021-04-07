@@ -4,12 +4,13 @@ import { View, TouchableOpacity, Colors, Typography } from 'react-native-ui-lib'
 
 interface DeleteButtonProps {
     onPress: () => any,
-    trans: Animated.AnimatedInterpolation,
+    scale: Animated.AnimatedInterpolation,
     width: number
 }
 
 export default class DeleteButton extends Component<DeleteButtonProps> {
     render() {
+        const { scale }= this.props;
         return (
             <TouchableOpacity onPress={this.props.onPress}>
                 <View
@@ -17,13 +18,14 @@ export default class DeleteButton extends Component<DeleteButtonProps> {
                     center
                     bg-red10 width={this.props.width}
                     marginR-s3
+                    br20
                 >
                     <Animated.Text 
                         style={
                             [
                                 styles.text,
                                 {
-                                    transform: [{ scale: this.props.trans }],
+                                    transform: [{ scale }],
                                 },
                             ]
                         }

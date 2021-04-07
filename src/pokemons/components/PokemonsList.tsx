@@ -24,15 +24,15 @@ class PokemonsList extends Component<PokemonsListProps> {
     }
 
     // Render a delete button
-    renderDeleteButton = (id: number, progress: any, dragX: Animated.Value) => {
+    renderDeleteButton = (id: number, progress: Animated.AnimatedInterpolation, dragX: Animated.AnimatedInterpolation) => {
         const BUTTON_WIDTH = 80;
-        const trans = dragX.interpolate({
+        const scale = dragX.interpolate({
             inputRange: [0, BUTTON_WIDTH],
             outputRange: [0, 1],
             extrapolate: 'clamp'
         });
 
-        return <DeleteButton onPress={() => deletePokemon(id)} trans={trans} width={BUTTON_WIDTH} />
+        return <DeleteButton onPress={() => deletePokemon(id)} scale={scale} width={BUTTON_WIDTH} />
     }
 
     // Fire a already have alert
@@ -52,7 +52,7 @@ class PokemonsList extends Component<PokemonsListProps> {
 
         if (this.props.deletable) {
             return (
-                <Swipeable renderLeftActions={(progress: any, dragX: any) => this.renderDeleteButton(item.id, progress, dragX)}>
+                <Swipeable renderLeftActions={(progress, dragX) => this.renderDeleteButton(item.id, progress, dragX)}>
                     { listItem }
                 </Swipeable>
             )
