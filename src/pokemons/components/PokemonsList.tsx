@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Alert, FlatList } from 'react-native';
+import { Alert, Animated, FlatList } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { View } from 'react-native-ui-lib';
 import { Pokemon, PokemonHash, PokemonsStore } from '../../types/pokemonTypes';
@@ -18,13 +18,21 @@ interface PokemonsListProps {
 
 class PokemonsList extends Component<PokemonsListProps> {
 
+    // PokemonList default props
     static defaultProps = {
         useDisable: true
     }
 
     // Render a delete button
-    renderDeleteButton = (id: number) => {
-        return <DeleteButton onPress={() => deletePokemon(id)}/>
+    renderDeleteButton = (id: number, progress: any, dragX: Animated.Value) => {
+        const BUTTON_WIDTH = 80;
+        const trans = dragX.interpolate({
+            inputRange: [0, BUTTON_WIDTH],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        });
+
+        return <DeleteButton onPress={() => deletePokemon(id)} trans={trans} width={BUTTON_WIDTH} />
     }
 
     // Fire a already have alert
@@ -34,17 +42,17 @@ class PokemonsList extends Component<PokemonsListProps> {
 
     // Item Render
     renderItem = ({ item }: { item: Pokemon }) => {
-        const isDisabled = !!this.props.hash[item.id];
+        const isDisabled = this.props.useDisable && !!this.props.hash[item.id];
         const listItem = <PokemonListItem
             key={item.id}
             pokemon={item}
             onPress={isDisabled ? this.fireAlert : () => this.props.onPokemonPress(item.id)} 
-            disabled={this.props.useDisable && isDisabled}
+            disabled={isDisabled}
         />
 
         if (this.props.deletable) {
             return (
-                <Swipeable renderLeftActions={this.renderDeleteButton.bind(this, item.id)}>
+                <Swipeable renderLeftActions={(progress: any, dragX: any) => this.renderDeleteButton(item.id, progress, dragX)}>
                     { listItem }
                 </Swipeable>
             )
