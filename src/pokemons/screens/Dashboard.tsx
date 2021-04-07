@@ -13,9 +13,16 @@ interface DashboardProps extends ScreenProps {
 }
 
 class Dashboard extends Component<DashboardProps> {
+    
+    // Pokemon press handler
     onPokemonPress = (pokemonId: number) => {
         presenter.pushViewScreen(this.props.componentId, pokemonId)
     }
+
+    onDeletePokemonPress = (pokemonId: number) => {
+        pokemonsActions.deletePokemon(pokemonId)
+    }
+
     // componentDidMount callback
     componentDidMount() {
         pokemonsActions.fetchPokemons();
@@ -30,6 +37,7 @@ class Dashboard extends Component<DashboardProps> {
                         pokemons={this.props.pokemons}
                         onPokemonPress={this.onPokemonPress}
                         useDisable={false}
+                        deletable
                     />
                 </View>
                 <View flex bottom>

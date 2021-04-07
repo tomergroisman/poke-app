@@ -31,6 +31,15 @@ export const addPokemon = async (pokemonId?: number) => {
     })
 }
 
+// Delete a pokemon from the user's pokemons
+export const deletePokemon = async (pokemonId: number) => {
+    apiClient.deletePokemon(pokemonId);
+    store.dispatch({
+        type: actionTypes.DELETE_POKEMON,
+        payload: pokemonId
+    })
+}
+
 // Reset pokemons list
 export const resetPokemons = () => {
     store.dispatch({

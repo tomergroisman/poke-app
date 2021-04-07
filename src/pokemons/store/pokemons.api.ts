@@ -33,9 +33,20 @@ export function addPokemon(pokemon: Pokemon): Promise<void> {
     return fetch(API_ENDPOINT, {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(pokemon)
+        })
+        .then()
+}
+
+// Delete a pokemon from the user's pokemons list on the server
+export function deletePokemon(id: number): Promise<void> {
+    return fetch(API_ENDPOINT + `/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         .then()
 }

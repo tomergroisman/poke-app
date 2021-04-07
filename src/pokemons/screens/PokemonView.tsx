@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, LoaderScreen } from 'react-native-ui-lib';
+import { Alert, Animated } from 'react-native';
+import { Text, View, LoaderScreen, Colors, TouchableOpacity } from 'react-native-ui-lib';
+import { Swipeable } from 'react-native-gesture-handler';
 import { getPokemon } from '../store/pokemons.api'
-import { Pokemon, PokemonFull } from '../../types/pokemonTypes';
+import { PokemonFull } from '../../types/pokemonTypes';
 import { ScreenProps } from '../../types/systemTypes';
+
 
 interface PokemonViewProps extends ScreenProps {
     id: number
@@ -22,6 +25,8 @@ export default class PokemonView extends Component<PokemonViewProps, PokemonView
             loading: true
         }
     }
+
+    // componentDidMount callback
     componentDidMount() {
         const fetchAndSet = async () => {
             const pokemon = await getPokemon(this.props.id);
@@ -32,6 +37,36 @@ export default class PokemonView extends Component<PokemonViewProps, PokemonView
         }
 
         fetchAndSet();
+    }
+
+    // @ts-ignore
+    deleteMe = (progress, dragX) => {
+        const scale = dragX.interpolate({
+            inputRange: [0, 100],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        })
+
+        return (
+            <TouchableOpacity onPress={() => Alert.alert("Clicked!")}>
+                <View
+                    height={100}
+                    width={100}
+                    backgroundColor={Colors.red20}
+                    center
+                    padding-s5
+                >
+                    <Animated.Text
+                        style={[
+                            { color: Colors.white },
+                            // @ts-ignore
+                            { transform: [{ scale }]}
+                        ]}>
+                            Delete
+                        </Animated.Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
 
     // render callback
@@ -46,6 +81,13 @@ export default class PokemonView extends Component<PokemonViewProps, PokemonView
                     <Text>Weight: {this.state.pokemon?.weight}</Text>
                     <Text>Types: {this.state.pokemon?.types.map(type => type.type.name).join(", ")}</Text>
                 </View> }
+                <Swipeable renderLeftActions={this.deleteMe}>
+                    <View
+                        width="100%"
+                        height={100}
+                        backgroundColor={Colors.blue60}
+                    />
+                </Swipeable>
             </View>
         )
     }
